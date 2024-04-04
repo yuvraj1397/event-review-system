@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Review System Frontend</title>
+</head>
+<body>
+    <h1>Event Review System Frontend</h1>
+
+    <h2>Submit Review</h2>
+    <form id="reviewForm">
+        <input type="number" id="eventId" placeholder="Event ID" required><br>
+        <input type="number" id="registrationExperience" placeholder="Registration Experience (1-5)" min="1" max="5" required><br>
+        <input type="number" id="eventExperience" placeholder="Event Experience (1-5)" min="1" max="5" required><br>
+        <input type="number" id="breakfastExperience" placeholder="Breakfast Experience (1-5)" min="1" max="5" required><br>
+        <input type="number" id="overallRating" placeholder="Overall Rating (1-5)" min="1" max="5" required><br>
+        <textarea id="comment" placeholder="Comment"></textarea><br>
+        <button type="submit">Submit Review</button>
+    </form>
+
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const eventId = document.getElementById('eventId').value;
+            const registrationExperience = parseInt(document.getElementById('registrationExperience').value);
+            const eventExperience = parseInt(document.getElementById('eventExperience').value);
+            const breakfastExperience = parseInt(document.getElementById('breakfastExperience').value);
+            const overallRating = parseInt(document.getElementById('overallRating').value);
+            const comment = document.getElementById('comment').value;
+            await submitReview(eventId, registrationExperience, eventExperience, breakfastExperience, overallRating, comment);
+        });
+
+        async function submitReview(eventId, registrationExperience, eventExperience, breakfastExperience, overallRating, comment) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/events/${eventId}/reviews`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ registrationExperience, eventExperience, breakfastExperience, overallRating, comment })
+                });
+                const data = await response.json();
+                alert(data.message);
+            } catch (error) {
+                console.error('Error submitting review:', error);
+            }
+        }
+    </script>
+</body>
+</html>
