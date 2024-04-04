@@ -1,4 +1,3 @@
-#eventreviewsystem
 Developed a set of REST APIs to facilitate the following functionalities:
 Allow authorized users to submit reviews for events they have attended.
 Enable users to rate the following criteria:
